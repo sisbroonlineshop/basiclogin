@@ -4,6 +4,7 @@ import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +17,19 @@ Create Date: 11/29/2017
 */
 @Controller
 public class UserRoleController {
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private RoleRepository roleRepository;
 
-    public UserRoleController() {
-    }
-
-    public UserRoleController(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
 
     @RequestMapping(value = "/login2")
     public String getLogin(){
         return "login/login2";
     }
 
-    @RequestMapping(value = "/users2")
+    @RequestMapping(value = "/users2",method = RequestMethod.GET)
     public String index(Model model){
         List<User> users = (List<User>) userRepository.findAll();
         model.addAttribute("users2",users);
@@ -58,7 +54,7 @@ public class UserRoleController {
         return "redirect:/users2";
     }
 
-    @RequestMapping(value = "addUserRole/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/addUserRole/{id}",method = RequestMethod.GET)
     public String addRole(@PathVariable("id") Long userId,Model model){
         model.addAttribute("roles",roleRepository.findAll());
         model.addAttribute("user",userRepository.findOne(userId));
