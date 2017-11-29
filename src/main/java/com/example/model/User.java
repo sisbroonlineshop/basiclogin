@@ -103,4 +103,13 @@ public class User {
 		this.roles = roles;
 	}
 
+	public boolean hasRole(Role role){
+		for(Role role1: getRoles()){
+			if(role1.getId() == role.getId()){
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
