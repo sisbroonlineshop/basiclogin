@@ -20,8 +20,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
 	private DataSource dataSource;
+	public SecurityConfiguration(DataSource dataSource){
+		this.dataSource = dataSource;
+	}
 	
 	@Value("${spring.queries.users-query}")
 	private String usersQuery;
@@ -45,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		http.
 			authorizeRequests()
-				.antMatchers("/","/public").permitAll()
+				.antMatchers("/","/public","/jsonusers","/people").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()

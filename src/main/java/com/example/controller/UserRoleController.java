@@ -4,8 +4,6 @@ import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +17,15 @@ Create Date: 11/29/2017
 @Controller
 public class UserRoleController {
     private UserRepository userRepository;
-    public UserRoleController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
 
     private RoleRepository roleRepository;
-    public UserRoleController(RoleRepository roleRepository){
-        this.roleRepository = roleRepository;
-    }
 
     public UserRoleController() {
+    }
+
+    public UserRoleController(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @RequestMapping(value = "/login2")
@@ -83,11 +80,6 @@ public class UserRoleController {
             return "redirect:/users2";
         }
         return "redirect:/users2";
-    }
-
-    @RequestMapping(value = "/getusers2",method = RequestMethod.GET)
-    public @ResponseBody List<User> getUsers(){
-        return (List<User>) userRepository.findAll();
     }
 
 }
