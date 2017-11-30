@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<h1>Add role</h1>
+<form th:action="@{/user/{id}/roles(id=${user.id})}" method="get" enctype="multipart/form-data" >
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">User info</div>
+            <div class="panel-body" style="padding-left: 5px;">
+                Name: <b th:text="${user.name}" /> <br/>
+                Email: <span th:text="${user.email}" /><br/>
+                <br/>Roles:
+                <span th:each="role : ${user.roles}">
+					<br/>&nbsp;&nbsp;<span th:text="${role.role}" />
+				</span>
+                <br/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select class="form-control" name="roleId">
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.role}">Role</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-success" value="Add Role"/>
+    </div>
+</form>
+</body>
+</html>

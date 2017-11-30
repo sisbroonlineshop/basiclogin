@@ -36,14 +36,14 @@ public class UserRoleController {
         return "users2";
     }
 
-    @RequestMapping(value = "add2")
+    @RequestMapping(value = "add")
     public String addUser(Model model){
-        model.addAttribute("user2",new User());
+        model.addAttribute("user",new User());
         return "addUser2";
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String save(User user) {
+    public String saveUser(User user) {
         userRepository.save(user);
         return "redirect:/users2";
     }
@@ -54,7 +54,7 @@ public class UserRoleController {
         return "redirect:/users2";
     }
 
-    @RequestMapping(value = "/addUserRole/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "addUserRole/{id}",method = RequestMethod.GET)
     public String addRole(@PathVariable("id") Long userId,Model model){
         model.addAttribute("roles",roleRepository.findAll());
         model.addAttribute("user",userRepository.findOne(userId));
@@ -62,7 +62,7 @@ public class UserRoleController {
     }
 
     @RequestMapping(value = "/user/{id}/roles",method = RequestMethod.GET)
-    public String usersAddRole(@PathVariable("id") Long id, @RequestParam Long roleId,Model model){
+    public String usersAddRole(@PathVariable Long id, @RequestParam Long roleId,Model model){
         Role role = roleRepository.findOne(roleId);
         User user = userRepository.findOne(id);
 
