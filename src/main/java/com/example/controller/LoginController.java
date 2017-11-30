@@ -2,6 +2,7 @@ package com.example.controller;
 
 import javax.validation.Valid;
 
+import com.example.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.model.User;
 import com.example.service.UserService;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class LoginController {
@@ -65,9 +69,12 @@ public class LoginController {
 		User user = userService.findUserByEmail(auth.getName());
 		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+
+		Set<Role> roles = user.getRoles();
 		modelAndView.setViewName("admin/home");
+
+		System.out.println();
 		return modelAndView;
 	}
-	
 
 }

@@ -77,5 +77,4 @@ public class UserRoleController {
         }
         return "redirect:/users2";
     }
-
 }

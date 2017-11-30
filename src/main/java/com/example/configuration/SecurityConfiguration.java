@@ -45,12 +45,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.
+		/*http.
 			authorizeRequests()
 				.antMatchers("/","/public","/users2/**","/addUserRole/**","/user/{id}/roles/**","/addUser2/**","/add/**","/save/**").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/registration").permitAll()
-				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+				.antMatchers("/admin/**").hasAnyAuthority()
+				.anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
 				.defaultSuccessUrl("/admin/home")
@@ -59,7 +60,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/").and().exceptionHandling()
-				.accessDeniedPage("/access-denied");
+				.accessDeniedPage("/access-denied");*/
+		/*http.
+				authorizeRequests()
+				.antMatchers("/user/**").hasAuthority("USER")
+				.anyRequest()
+				.authenticated().and().csrf().disable().formLogin()
+				.loginPage("/login").failureUrl("/login?error=true")
+				.defaultSuccessUrl("/user/user")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/").and().exceptionHandling()
+				.accessDeniedPage("/access-denied");*/
+		http
+				.authorizeRequests().antMatchers("/users2")
+				.permitAll().anyRequest().authenticated()
+				.and()
+				.formLogin().loginPage("/login").defaultSuccessUrl("/admin/home").permitAll()
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.and()
+				.logout().permitAll()
+				.and()
+				.httpBasic()
+				.and()
+				.csrf().disable();
 	}
 	
 	@Override
