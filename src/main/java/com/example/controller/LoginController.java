@@ -70,10 +70,42 @@ public class LoginController {
 		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 
-		Set<Role> roles = user.getRoles();
 		modelAndView.setViewName("admin/home");
 
 		System.out.println();
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/admin/admin",method = RequestMethod.GET)
+	public ModelAndView getAdmin(){
+		ModelAndView modelAndView = new ModelAndView();
+		//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//User user = userService.findUserByEmail(authentication.getName());
+		/*Set<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			if (role.getRole().equalsIgnoreCase("ADMIN")) {
+				modelAndView.setViewName("admin/admin");
+			} else if (role.getRole().equalsIgnoreCase("USER")) {
+				modelAndView.setViewName("user/user");
+			}
+		}*/
+		modelAndView.setViewName("admin/admin");
+		return modelAndView;
+	}
+	@RequestMapping(value = "/user/user",method = RequestMethod.GET)
+	public ModelAndView getUser(){
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(authentication.getName());
+		Set<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			if (role.getRole().equalsIgnoreCase("USER")) {
+					modelAndView.setViewName("user/user");
+			}
+			else {
+				modelAndView.setViewName("/access-denied");
+			}
+		}
 		return modelAndView;
 	}
 

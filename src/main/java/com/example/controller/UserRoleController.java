@@ -5,6 +5,7 @@ import com.example.model.User;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ public class UserRoleController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @RequestMapping(value = "/login2")
@@ -44,6 +48,8 @@ public class UserRoleController {
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String saveUser(User user) {
+        user.setActive(1);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "redirect:/users2";
     }
